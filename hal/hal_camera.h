@@ -24,10 +24,8 @@ extern "C" {
 
 /**
  * macros
- * description: The Macro definition of Camera.
+ * description: the Macro definition of Camera.
  */
-#define HAL_CAMERA_RESIZE_MAX_NUM  ((unsigned int)5)
-
 #define HAL_CAMERA_MODE_OFFLINE    ((unsigned int)0)
 #define HAL_CAMERA_MODE_ONLINE     ((unsigned int)1)
 
@@ -36,9 +34,6 @@ extern "C" {
 
 #define HAL_FRAME_CONTINUES        ((unsigned int)0)
 #define HAL_FRAME_LASTEST          ((unsigned int)1)
-
-#define HAL_CAMERA_NO_RESIZE       ((unsigned int)0)
-#define HAL_CAMERA_RESIZE          ((unsigned int)1)
 
 #define HAL_CAMERA_TIMESTAMP_NO_ENCODE    ((unsigned int)0)
 #define HAL_CAMERA_TIMESTAMP_ENCODE       (unsigned int)(1)
@@ -76,28 +71,6 @@ enum hal_camera_format
 };
 
 /**
- * typedef struct hal_frame_resize_t.
- * @rsz_start_x: image scale start point x value
- * @rsz_start_y: image scale start point y value
- * @rsz_end_x: image scale end point x value
- * @rsz_end_y: image scale end point y value
- * @rsz_output_width: output image width after image scale
- * @rsz_output_height: output image height after image scale
- * @rsz_colorformat: output image colorformat after image scale
- * description: config info for image scale.
- */
-typedef struct _hal_frame_resize_t
-{
-	unsigned int rsz_start_x;
-	unsigned int rsz_start_y;
-	unsigned int rsz_end_x;
-	unsigned int rsz_end_y;
-	unsigned int rsz_output_width;
-	unsigned int rsz_output_height;
-	unsigned int rsz_colorformat;
-}hal_frame_resize_t;
-
-/**
  * typedef struct hal_camera_frame_t.
  * @channel_id: camera channel index means this frame come from which camera
  * @group_id: camera group index means this frame come from which group
@@ -105,8 +78,8 @@ typedef struct _hal_frame_resize_t
  * @silence_flag: True is mean no camera frame write to disk, False is or not
  * @hw_timestamp: hardware timestamp
  * @timestamp: system timestamp when get camera frame
- * @length: camera frame size = width*height*pixal.size; output only one frame when no resize
- * @buffer: camera frame buffer point at mem; output only one frame when no resize
+ * @length: camera frame size = width*height*pixal.size
+ * @buffer: camera frame buffer point at mem
  * @reserve: reserve
  * description: camera frame info
  */
@@ -118,8 +91,8 @@ typedef struct _hal_camera_frame_t
 	unsigned int silence_flag;
 	unsigned long long hw_timestamp;
 	struct timeval timestamp;
-	unsigned int length[HAL_CAMERA_RESIZE_MAX_NUM];
-	unsigned char *buffer[HAL_CAMERA_RESIZE_MAX_NUM];
+	unsigned int length;
+	unsigned char *buffer;
 	unsigned int reserve[4];
 }hal_camera_frame_t;
 
@@ -145,8 +118,6 @@ typedef void (*hal_camera_callback_t)(const hal_camera_frame_t* frame);
  * @camera_mode_flag: camera run mode is online or offline
  * @camera_sync_flag: camera sync mode is hardware sync or software sync
  * @frame_sync_flag: frame data sync mode is to output continuous frame or the newest frame
- * @resize_flag: resize flag is need to scale camera image,ture is need, false is or not
- * @resize_cfg: resize config is info for crop resize,such as start or end point
  * @ts_encode_flag: timestamp encode flag is true means write timestamp to evey frame use data block type
  * @cb_func: camera callback func point
  * @reserve: reserve size is 4*sizeof(unsigned int)
@@ -165,8 +136,6 @@ typedef struct _hal_camera_cfg_t
 	unsigned int camera_mode_flag; // online or offline
 	unsigned int camera_sync_flag;
 	unsigned int frame_sync_flag; // continues or lastest
-	unsigned int resize_flag;
-	hal_frame_resize_t resize_cfg;
 	unsigned int ts_encode_flag;
 	hal_camera_callback_t cb_func;
 	unsigned int reserve[4];
