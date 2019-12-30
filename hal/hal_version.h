@@ -1,14 +1,15 @@
-/******************************************************************************
-
-Copyright (c) [2018 - 2019] MOMENTA Incorporated. All rights reserved.
-
-******************************************************************************/
+ /*
+ *******************************************************************************
+ *
+ * Copyright (C) 2019 Momenta Incorporated - http://www.momenta.cn/
+ * all rights reserved
+ *
+ *******************************************************************************
+ */
 
 /**
- * File: hal_version.h
- *
- * Description: This file provides an interface to get version information.
- *              
+ * file: hal_version.h
+ * description: This file provides an interface to get version information.
  */
 
 #ifndef __HAL_VERSION_H__
@@ -21,23 +22,23 @@ extern "C" {
 #endif // __cplusplus
 
 /**
- * hal_version - hal version module data struct.
+ * typedef struct hal_version_t.
  * @sdk_major: SDK-based major version  number
  * @sdk_minor: SDK-based minor version  number
  * @hal_major:  hal major version  number
  * @hal_minor: hal minor version  number
  * @hal_tailor: hal tail version  number
  * @hal_rc: hal  release candidate version  number
- * @note: The specific version number is implemented in the hal_version.c file
+ * description: The specific version number is implemented in the hal_version.c file
  */
-typedef struct hal_version
+typedef struct _hal_version_t
 {
-	char sdk_major;
-	char sdk_minor;
-	char hal_major;
-	char hal_minor;
-	char hal_endor;
-	char hal_rc;
+	unsigned char sdk_major;
+	unsigned char sdk_minor;
+	unsigned char hal_major;
+	unsigned char hal_minor;
+	unsigned char hal_endor;
+	unsigned char hal_rc;
 } hal_version_t;
 
 /**
@@ -46,7 +47,7 @@ typedef struct hal_version
  * @ver_info: hal version infomention
  * @return: success is 0, failure  < 0.
  */
-int hal_get_version(int *desc, hal_version_t *ver_info);
+int hal_get_version(hal_version_t *ver_info, int *desc);
 
 #ifdef __cplusplus
 }

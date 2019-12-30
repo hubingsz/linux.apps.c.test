@@ -2,7 +2,7 @@
  *******************************************************************************
  *
  * Copyright (C) 2019 Momenta Incorporated - http://www.momenta.cn/
- * ALL RIGHTS RESERVED
+ * all rights reserved
  *
  *******************************************************************************
  */
@@ -18,7 +18,7 @@ extern "C" {
  * hal_arch_init() - openvx sys app need to init when start.
  * @desc: hal arch file handler
  * @return: Success return 0, failure return <0.
- * @note: This interface must be called before other hal interfaces are called
+ * description: This interface must be called before other hal interfaces are called
  */
 int hal_arch_init(int* desc);
 
