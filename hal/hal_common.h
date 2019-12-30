@@ -20,7 +20,7 @@ extern "C" {
 #endif // __cplusplus
 
 /*
- * Common macro definitions
+ * common macro definitions of API status
  */
 #define HAL_STATUS_OK               (0)
 #define HAL_STATUS_EFAIL            (-1)
@@ -30,9 +30,19 @@ extern "C" {
 #define HAL_STATUS_EINVALID_PARAMS  (-5)
 #define HAL_STATUS_UNKNOWN          (-6)
 
+/*
+* common macro definitions of debug tools
+*/
+//#define HAL_DEBUG
+#ifdef HAL_DEBUG
+#define hal_debug(...)    printf("\r\n hal debug : " __VA_ARGS__)
+#else
+#define hal_debug(...)    do{}while(0)
+#endif
+#define hal_err(...)      printf("\r\n hal error : " __VA_ARGS__ )
+
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
 #endif // __HAL_COMMON_H__
-
