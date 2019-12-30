@@ -18,7 +18,7 @@ extern "C" {
  * hal_arch_init() - openvx sys app need to init when start.
  * @desc: hal arch file handler
  * @return: Success return 0, failure return <0.
- * @ps: this is the first interface to call for Hal layer
+ * @note: This interface must be called before other hal interfaces are called
  */
 int hal_arch_init(int* desc);
 
