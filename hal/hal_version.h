@@ -47,7 +47,7 @@ typedef struct _hal_version_t
  * @ver_info: hal version infomention
  * @return: success is 0, failure  < 0.
  */
-int hal_get_version(hal_version_t *ver_info, int *desc);
+int hal_get_version(hal_version_t *ver_info);
 
 #ifdef __cplusplus
 }
