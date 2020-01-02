@@ -9,12 +9,12 @@
 
 
 /**
- * file: hal_pref.h
+ * file: hal_perf.h
  * description: This file provides interface functions of the HAL performance module
  */
 
-#ifndef __HAL_PREF_H__
-#define __HAL_PREF_H__
+#ifndef __HAL_PERF_H__
+#define __HAL_PERF_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -70,13 +70,12 @@ enum hal_perf_process_id
 	HAL_PERF_INVALID,
 };
 
-
 /**
  * typedef struct hal_perf_info_t.
  * @integer_val: the integer part of the percentage value
  * @fractional_val: the fractional part of the percentage value
  * @core_name: processor name
- * @flag: whether to use of the processor
+ * @core_use_flag: whether to use of the processor
  * description: define CPU usage structure
  */
 typedef struct _hal_perf_info_t
@@ -84,13 +83,13 @@ typedef struct _hal_perf_info_t
 	unsigned int integer_val;
 	unsigned int fractional_val;
 	char core_name[HAL_PERF_CORE_NAME_MAX];
-	char flag;
+	char core_use_flag;
 }hal_perf_info_t;
 
 /**
  * typedef struct hal_perf_all_info_t.
- * @perf: Struct hal_perf_info_t array
- * description: Define CPU usage structure array
+ * @perf: struct hal_perf_info_t array
+ * description: define CPU usage structure array
  */
 typedef struct _hal_perf_all_info_t
 {
@@ -98,31 +97,58 @@ typedef struct _hal_perf_all_info_t
 }hal_perf_all_info_t;
 
 /**
- * hal_system_get_perf() - Get the usage of a processor.
- * @core_id: Processor ID
+ * typedef struct hal_perf_ddr_info_t.
+ * @ddr_avg_bw_val: avg bytes read and write per second, in units of MB/s
+ * @ddr_peek_bw_val: peak bytes read and write in a sampling period, in units of MB/s
+ * @ddr_total_available_val: theoritical bw available to system, in units of MB/s
+ * description: DDR Band Width information structure
+ */
+typedef struct _hal_perf_ddr_info_t
+{
+	unsigned int ddr_avg_bw_val;
+	unsigned int ddr_peek_bw_val;
+	unsigned int ddr_total_available_val;
+}hal_perf_ddr_info_t;
+
+/**
+ * hal_perf_read() - get the usage of a processor.
+ * @core_id: processor ID
  * @perf: CPU usage structure pointer
- * @return: Success return 0, failure return <0.
+ * @return: success return 0, failure return <0.
  */
-int hal_perf_get(int core_id, hal_perf_info_t *perf);
+int hal_perf_read(int core_id, hal_perf_info_t *perf);
 
 /**
- * hal_system_get_perf_all() - Get the utilization of all processors in the system.
- * @perfall: All CPU usage structure pointer
- * @return: Success return 0, failure return <0.
+ * hal_perf_read_all() - get the utilization of all processors in the system.
+ * @perfall: all CPU usage structure pointer
+ * @return: success return 0, failure return <0.
  */
-int hal_perf_get_all(hal_perf_all_info_t *perfall);
+int hal_perf_read_all(hal_perf_all_info_t *perfall);
 
 /**
- * hal_system_print_perf_all() - Printf the utilization of all processors in the system.
- * @perfall: All CPU usage structure pointer
+ * hal_perf_load_start() - Start to calculate the usage of all processors.
  * @return: None
  */
-void hal_perf_print_all(hal_perf_all_info_t *perfall);
+void hal_perf_read_start(void);
 
+/**
+ * hal_perf_load_stop_and_print() - end and print usage of all processors in the computing system.
+ * @return: None
+ * @return: success return 0, failure return <0.
+ * description: after executing hal_system_perf_proc_load_start 0.5s, you can print the usage of all processors.
+ */
+int hal_perf_write_stop(hal_perf_all_info_t *perfall);
+
+/**
+ * hal_perf_ddr_read() - get peak and average of memory.
+ * @hal_perf_ddr_info_t: memory info struct pointer
+ * @return: success return 0, failure return <0.
+ */
+int hal_perf_ddr_read(hal_perf_ddr_info_t *ddr);
 
 #ifdef __cplusplus
 }
 #endif // __cplusplus
 
-#endif //__HAL_PREF_H__
+#endif // __HAL_PERF_H__
 
